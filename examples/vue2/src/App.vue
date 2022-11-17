@@ -1,19 +1,19 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="left">
+      <img alt="Vue logo" src="./assets/logo.png" />
+      <h2>vue3 应用</h2>
+    </div>
+    <div class="rigth">
+      <micro-app name="vue3" url="http://localhost:8081" />
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  name: "App",
+};
 </script>
 
 <style>
@@ -24,5 +24,10 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  display: flex;
+}
+.left,
+.right {
+  width: 50%;
 }
 </style>
