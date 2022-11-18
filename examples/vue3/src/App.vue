@@ -1,6 +1,7 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
   <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <h3 class="text-color">子应用字体颜色</h3>
 </template>
 
 <script>
@@ -22,5 +23,8 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.text-color {
+  color: blue;
 }
 </style>

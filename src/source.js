@@ -1,4 +1,5 @@
 import { fetchSource } from "./utils";
+import scopedCss from "./scopedcss";
 
 export function loadHtml(app) {
   fetchSource(app.url)
@@ -85,7 +86,7 @@ function extractSourceDom(parent, app) {
     }
     // 处理style标签
     else if (dom instanceof HTMLStyleElement) {
-      // TODO: 样式隔离时实现
+      scopedCss(dom, app.name);
     }
   }
 }
@@ -106,6 +107,7 @@ function fetchLinksFromHtml(app, microAppHead, htmlDom) {
         const code = res[i];
         const link2Style = document.createElement("style");
         link2Style.textContent = code;
+        scopedCss(link2Style, app.name);
         linksEntries[i][1].code = code;
         microAppHead.appendChild(link2Style);
       }

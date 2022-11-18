@@ -3,6 +3,7 @@
     <div class="left">
       <img alt="Vue logo" src="./assets/logo.png" />
       <h2>vue2 应用</h2>
+      <h3 class="text-color">主应用字体颜色</h3>
       <button @click="toogleDisplay">
         {{ showChildApp ? "隐藏" : "显示" }}子应用
       </button>
@@ -43,5 +44,8 @@ export default {
 .left,
 .right {
   width: 50%;
+}
+.text-color {
+  color: red;
 }
 </style>
