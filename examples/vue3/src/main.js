@@ -1,4 +1,8 @@
-import { createApp } from 'vue'
-import App from './App.vue'
+import { createApp } from "vue";
+import App from "./App.vue";
 
-createApp(App).mount('#app')
+window.globalStr = "child";
+window.addEventListener("scroll", (e) => {
+  console.log("child onScroll: ", e);
+});
+createApp(App).mount("#app");
