@@ -22,18 +22,37 @@
 
 `style元素`插入到文档中，浏览器会为`style`创建`CSSStyleSheet样式表`，该样式表的`cssRules`属性包含了一组用于描述样式规则的`CSSRule`对象，通过该对象就可以对样式规则进行访问和修改。
 #### 数据通信
+子应用本身是可以独立运行的，通信系统不应该对子应用侵入的太深，所以采用了发布订阅模式。micro-app是以组件化的思想实现微前端的，我们在写vue或者react组件时，传递数据或注册监听都是以组件属性方式添加的，我们希望micro-app也能实现这种效果。
+
+自定义元素无法支持对象类型的属性，只能传递字符串，例如<micro-app data={x: 1}></micro-app> 会转换为 <micro-app data='[object Object]'></micro-app>，想要以组件化形式进行数据通信必须让元素支持对象类型属性，为此我们需要重写micro-app原型链上setAttribute方法处理对象类型属性。
+
+主应用通过micro-app的data属性发送数据，重写后的setAttribute方法会拦截data属性的变化，结合发布订阅将变化后的数据发送给子应用的监听。子应用通过全局注入的microApp属性注册数据变化的监听。
+
+子应用通过全局注入的dispath向父应用传递数据，dispatch方法中则会构造一个CustomEvent自定义事件，以自定义事件的方式向主应用发送数据。父应用这边则通过监听与子应用协商好的自定义事件拿到子应用的数据。
 
 ### 项目结构
 ``` 
     ├── examples
-    │   ├── vue2        // 主应用
-    │   └── vue3        // 子应用
+    │   ├── vue2            // 主应用
+    │   └── vue3            // 子应用
     ├── package.json
     ├── readme.md
-    └── src             // 微前端实现
-        ├── app.js
-        ├── element.js
-        ├── index.js
-        ├── source.js
-        └── utils.js
+    └── src                 // 微前端实现
+        ├── app.js          // 子应用对应的微前端实例
+        ├── data.js         // 数据通信
+        ├── element.js      // micro-app自定义元素
+        ├── index.js        // 应用入口
+        ├── sandBox.js      // js沙箱
+        ├── scopedcss.js    // css隔离
+        ├── source.js       // 子应用静态资源加载
+        └── utils.js        // 辅助函数
+```
+
+### 使用
+```bash
+# 分别进入examples/vue2、vue3 安装依赖
+npm i
+
+# 分别进入exapmles/vue3、vue3 启动项目
+npm run serve
 ```

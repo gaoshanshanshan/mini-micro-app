@@ -10,7 +10,7 @@ export default class CreateApp {
     this.container = container;
     this.status = "loading";
     loadHtml(this);
-    this.sandBox = new SandBox();
+    this.sandBox = new SandBox(name);
   }
   // 组件状态：created/loading/mount/unmount
   status = "created";

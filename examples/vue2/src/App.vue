@@ -9,7 +9,13 @@
       </button>
     </div>
     <div class="rigth">
-      <micro-app v-if="showChildApp" name="vue3" url="http://localhost:8081" />
+      <micro-app
+        v-if="showChildApp"
+        name="vue3"
+        url="http://localhost:8081"
+        :data="microData"
+        @datachange="handleDataChange"
+      />
     </div>
   </div>
 </template>
@@ -20,11 +26,24 @@ export default {
   data() {
     return {
       showChildApp: true,
+      microData: {
+        data: "",
+      },
     };
+  },
+  mounted() {
+    setTimeout(() => {
+      this.microData = {
+        data: "来自基座应用的数据",
+      };
+    }, 2000);
   },
   methods: {
     toogleDisplay() {
       this.showChildApp = !this.showChildApp;
+    },
+    handleDataChange(e) {
+      console.log("接受数据：", e.detail.data);
     },
   },
 };

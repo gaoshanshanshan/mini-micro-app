@@ -1,3 +1,4 @@
+import { EventCenterForMicroApp } from "./data";
 const rawAddEventListener = window.addEventListener;
 const rawRemoveEventlistener = window.removeEventListener;
 
@@ -22,7 +23,7 @@ function effect(microWindow) {
     }
     rawRemoveEventlistener.call(window, type, listener, options);
   };
-  
+
   return () => {
     console.log("卸载全局事件", eventListenerMap);
     if (eventListenerMap.size) {
@@ -44,7 +45,8 @@ export default class SandBox {
   // 注入到代理对象的key
   injectedKeys = new Set();
 
-  constructor() {
+  constructor(appName) {
+    this.microWindow.microApp = new EventCenterForMicroApp(appName);
     this.proxyWindow = new Proxy(this.microWindow, {
       get: (target, key) => {
         // 优先去缓存中的数据
@@ -96,6 +98,7 @@ export default class SandBox {
       this.injectedKeys.clear();
       // 卸载掉全局事件
       this.releaseEffect();
+      this.microWindow.microApp.clearDataListener();
     }
   }
   // 修改js作用域
