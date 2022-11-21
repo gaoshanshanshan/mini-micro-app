@@ -24,7 +24,7 @@
 #### 数据通信
 子应用本身是可以独立运行的，通信系统不应该对子应用侵入的太深，所以采用了发布订阅模式。`micro-app`是以组件化的思想实现微前端的，我们在写`vue`或者`react`组件时，传递数据或注册监听都是以组件属性方式添加的，我们希望`micro-app`也能实现这种效果。
 
-自定义元素无法支持对象类型的属性，只能传递字符串，例如<micro-app data={x: 1}></micro-app> 会转换为 <micro-app data='[object Object]'></micro-app>，想要以组件化形式进行数据通信必须让元素支持对象类型属性，为此我们需要重写`micro-app`原型链上`setAttribute`方法处理对象类型属性。
+自定义元素无法支持对象类型的属性，只能传递字符串，例如<micro-app data={x: 1}></micro-app> 会转换为 <micro-app data=\'[object Object]\'></micro-app>，想要以组件化形式进行数据通信必须让元素支持对象类型属性，为此我们需要重写`micro-app`原型链上`setAttribute`方法处理对象类型属性。
 
 主应用通过`micro-app`的`data`属性发送数据，重写后的`setAttribute`方法会拦截`data`属性的变化，结合发布订阅将变化后的数据发送给子应用的监听。子应用通过全局注入的`microApp`属性注册数据变化的监听。
 
